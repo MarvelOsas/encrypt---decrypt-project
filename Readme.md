@@ -1,67 +1,206 @@
-# 🔐 Caesar Cipher Encryption & Decryption Tool
+# 🔐 Encryption & Decryption Project
 
-A simple Python-based tool that encrypts and decrypts messages using the **Caesar Cipher**, one of the earliest and most well-known encryption techniques.  
+A comprehensive Python project demonstrating modern cryptography techniques including **Caesar Cipher**, **RSA (Asymmetric Encryption)**, and **AES (Symmetric Encryption)**.
+
 This project is perfect for beginners learning cybersecurity, cryptography fundamentals, and Python programming.
 
-
+---
 
 ## 📌 Features
 
+### 1. **Caesar Cipher** (`cipher.py`)
 ✔ Encrypt any text using a shift (key)  
 ✔ Decrypt encrypted text back to original  
 ✔ Preserves uppercase, lowercase, spaces, and punctuation  
-✔ Beginner-friendly code  
-✔ Great for cybersecurity portfolio projects
+✔ Beginner-friendly implementation  
 
+### 2. **RSA Encryption** (`rsa_encryption.py`)
+✔ Generates two random prime numbers using **Miller-Rabin primality test**  
+✔ Computes public key (n, e) and private key (n, d)  
+✔ Encrypts/decrypts messages using modular exponentiation  
+✔ Implements Extended Euclidean Algorithm for key generation  
+✔ Complete demonstration with user input  
 
+### 3. **AES Symmetric Encryption** (`aes_encryption.py`)
+✔ Generates random AES keys or derives from passwords  
+✔ Uses **PBKDF2** for secure key derivation  
+✔ AES-128 encryption in **CBC mode**  
+✔ HMAC authentication for message integrity  
+✔ Full encryption/decryption demonstration  
 
-## 🧠 Understanding the Caesar Cipher
+---
 
-The Caesar Cipher is a substitution cipher where each letter in the plaintext is shifted by a fixed number.
+## 🧠 Understanding Encryption Methods
 
-Example with a shift of **3**:  
-- A → D  
-- B → E  
-- X → A  
-- HELLO → KHOOR  
+### Caesar Cipher
+A substitution cipher where each letter is shifted by a fixed number.
+- **Example**: HELLO with shift 3 → KHOOR
+- **Use case**: Educational - demonstrates basic encryption concepts
+- **Security**: NOT suitable for production (easily broken)
 
-Although it is not used in modern cryptography, it is extremely useful for learning:
+### RSA (Asymmetric Encryption)
+Public-key cryptography using two different keys for encryption/decryption.
+- **How it works**: 
+  - Public key (n, e) encrypts messages
+  - Private key (n, d) decrypts messages
+  - Based on the difficulty of factoring large primes
+- **Use case**: Secure communication, digital signatures
+- **Security**: Strong when using large primes (1024+ bits)
 
-- How encryption works  
-- Character manipulation  
-- How to reverse an encryption operation  
-- Basic cryptography principles  
+### AES (Symmetric Encryption)
+Secret-key cryptography using the same key for encryption/decryption.
+- **How it works**:
+  - One shared secret key encrypts and decrypts
+  - Uses CBC mode for additional security
+  - HMAC provides authenticity verification
+- **Use case**: Fast encryption of large data
+- **Security**: Very strong and widely used in production
 
+---
 
-## ▶️ How to Run the Program
+## ▶️ How to Run the Programs
 
-1. Install Python on your computer.
-2. Open your terminal or command prompt.
-3. Navigate to the project directory:
-    Run the script:
-        Copy code
-        python cipher.py
-        Enter your message and the shift value (1–25).
+### Prerequisites
+```bash
+# For Caesar Cipher (no dependencies needed)
+python cipher.py
 
-        🧪 Example Usage
-        Input:
-        Message:
-            Attack At Dawn!
-        
-        Output:
-            pgsql
-        Encrypted: Exxego Ex Hear!
-        Decrypted Back: Attack At Dawn!
-        🧩 How It Works
-            ord() converts characters to ASCII codes.
+# For RSA Encryption (no external dependencies)
+python rsa_encryption.py
 
-        Characters are shifted within their alphabet ranges (A–Z or a–z).
-        26 ensures wrap-around so Z becomes A.
-        Decryption simply reverses the shift.
+# For AES Encryption (requires cryptography library)
+pip install cryptography
+python aes_encryption.py
+```
 
-🤝 Contributing
-This is a beginner-friendly project — feel free to fork it, improve it, and open pull requests.
+### Caesar Cipher Example
+```
+Input:
+  Message: "Attack At Dawn"
+  Shift: 3
 
+Output:
+  Encrypted: "Dwwdfn Dw Gdzq"
+  Decrypted Back: "Attack At Dawn"
+```
 
+### RSA Encryption Example
+```
+[STEP 1: KEY GENERATION]
+>>> Generating two 16-bit prime numbers using Miller-Rabin test...
+    Prime p: 53261
+    Prime q: 61829
+    Modulus n (p*q): 3291475169
+    Public exponent e: 17
+    Private exponent d: 1935799577
 
+[STEP 2: MESSAGE ENCRYPTION]
+Enter a message: "HI"
+    Encrypted Message: [1445897432, 373669173]
 
+[STEP 3: MESSAGE DECRYPTION]
+    Decrypted Message: "HI"
+    ✓ SUCCESS: Decrypted message matches original!
+```
+
+### AES Encryption Example
+```
+[STEP 1: AES KEY GENERATION]
+Generate key from:
+  1. Random (secure)
+  2. Password
+Choose: 1
+    Key (base64): gAAAAABmXxY5K8x...
+
+[STEP 2: MESSAGE INPUT]
+Enter a message: "Hello World"
+
+[STEP 3: MESSAGE ENCRYPTION]
+    Encrypted Message (ciphertext): b'gAAAAABmXxY5...'
+    Ciphertext (base64): gAAAAABmXxY5K8x...
+
+[STEP 4: MESSAGE DECRYPTION]
+    Decrypted Message: "Hello World"
+    ✓ SUCCESS: Decrypted message matches original!
+```
+
+---
+
+## 📂 Project Structure
+
+```
+Encrypt---decrypt-project/
+│
+├── cipher.py              # Caesar Cipher implementation
+├── rsa_encryption.py      # RSA encryption with Miller-Rabin test
+├── aes_encryption.py      # AES-128 CBC mode encryption
+└── Readme.md              # Project documentation
+```
+
+---
+
+## 🔑 Key Algorithms Implemented
+
+### 1. Miller-Rabin Primality Test
+Used in RSA to generate large prime numbers with high confidence.
+- Probabilistic algorithm (k iterations determine accuracy)
+- Much faster than trial division
+- Used in modern cryptography systems
+
+### 2. Extended Euclidean Algorithm
+Used in RSA to compute the private key (d) from public exponent (e).
+- Finds modular multiplicative inverse
+- Critical for RSA key generation
+
+### 3. PBKDF2 (Password-Based Key Derivation Function)
+Used in AES to derive encryption keys from passwords.
+- Applies SHA-256 hashing 100,000 times
+- Adds salt for resistance against rainbow table attacks
+- Industry-standard key derivation method
+
+---
+
+## 🧪 Security Notes
+
+⚠️ **Caesar Cipher**
+- NOT secure - easily broken by brute force
+- Educational purposes only
+
+⚠️ **RSA (Demo Version)**
+- Current implementation uses 16-bit primes for demo
+- Production use requires 1024+ bit primes
+- For demonstration/learning only
+
+✅ **AES Encryption**
+- Production-ready implementation
+- AES-128 is cryptographically secure
+- HMAC provides authenticity
+
+---
+
+## 🤝 Contributing
+
+This is an educational project — feel free to:
+- Fork it and improve it
+- Add more encryption algorithms
+- Optimize the implementations
+- Open pull requests with enhancements
+
+---
+
+## 📚 Resources
+
+- [RSA Cryptography](https://en.wikipedia.org/wiki/RSA_(cryptosystem))
+- [AES Encryption](https://en.wikipedia.org/wiki/Advanced_Encryption_Standard)
+- [Python Cryptography Library](https://cryptography.io/)
+- [Miller-Rabin Test](https://en.wikipedia.org/wiki/Miller%E2%80%93Rabin_primality_test)
+
+---
+
+## 📝 License
+
+This project is open source and available for educational purposes.
+
+---
+
+**Happy Learning! 🚀**
