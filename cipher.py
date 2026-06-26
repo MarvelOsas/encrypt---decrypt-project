@@ -17,9 +17,20 @@ def decrypt(text, shift):
 
 
 def main():
-    print("=== Caesar Cipher Encryption Tool ===")
+    print("::: Marvel's Custom Caesar Cipher Tool :::")
+    print("-----------------------------------------")
+    
     message = input("Enter your message: ")
-    shift = int(3)#input("Enter shift value (1–25): ")#
+    
+    # Dynamic user input validation for the shift key
+    try:
+        shift = int(input("Enter a secret shift key number (1-25): "))
+        if not (1 <= shift <= 25):
+            print("Out of range. Defaulting shift key to 3.")
+            shift = 3
+    except ValueError:
+        print("Invalid number format. Defaulting shift key to 3.")
+        shift = 3
 
     encrypted = encrypt(message, shift)
     decrypted = decrypt(encrypted, shift)
