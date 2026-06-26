@@ -36,7 +36,7 @@ def generate_key_from_password(password, salt=None):
         Tuple of (key, salt) where key is URL-safe base64 encoded
     """
     if salt is None:
-        salt = os.urandom(16)
+        salt = b'MarvelsSecureSalt'
     
     kdf = PBKDF2HMAC(
         algorithm=hashes.SHA256(),
@@ -81,6 +81,34 @@ def decrypt_message(encrypted_message, key):
     decrypted = cipher.decrypt(encrypted_message)
     return decrypted.decode()
 
+def encrypt_file(file_path, fernet_obj):
+    import os
+    if not os.path.exists(file_path):
+        print("❌ Error: That file does not exist!")
+        return
+    with open(file_path, 'rb') as f:
+        file_data = f.read()
+    encrypted_data = fernet_obj.encrypt(file_data)
+    output_path = file_path + ".enc"
+    with open(output_path, 'wb') as f:
+        f.write(encrypted_data)
+    print(f"\n🔒 Success! Encrypted file saved as: {output_path}")
+
+def decrypt_file(file_path, fernet_obj):
+    import os
+    if not os.path.exists(file_path):
+        print("❌ Error: That file does not exist!")
+        return
+    with open(file_path, 'rb') as f:
+        encrypted_data = f.read()
+    try:
+        decrypted_data = fernet_obj.decrypt(encrypted_data)
+        output_path = file_path.replace(".enc", "") if file_path.endswith(".enc") else file_path + "_decrypted.txt"
+        with open(output_path, 'wb') as f:
+            f.write(decrypted_data)
+        print(f"\n🔓 Success! Decrypted file restored to: {output_path}")
+    except Exception:
+        print("❌ Error: Decryption failed. Invalid key or corrupted data.")
 
 def main():
     """Main function to demonstrate AES encryption and decryption."""
@@ -108,54 +136,41 @@ def main():
         salt = None
         print(f"    Key (base64): {key.decode()}")
     
-    # Step 2: Get User Input
-    print("\n[STEP 2: MESSAGE INPUT]")
-    print("-" * 70)
-    message = input("\nEnter a message to encrypt: ")
-    
-    if not message:
-        print("No message entered. Using default: 'Hello, this is a secret message!'")
-        message = "Hello, this is a secret message!"
-    
-    print(f"\n  Original Message: '{message}'")
-    
-    # Step 3: Encrypt Message
-    print("\n[STEP 3: MESSAGE ENCRYPTION]")
-    print("-" * 70)
-    print("\n>>> Encrypting message using AES-128 CBC mode...")
-    encrypted = encrypt_message(message, key)
-    print(f"    Encrypted Message (ciphertext):")
-    print(f"    {encrypted}")
-    print(f"\n    Ciphertext (hex): {encrypted.hex()}")
-    print(f"    Ciphertext (base64): {base64.b64encode(encrypted).decode()}")
-    
-    # Step 4: Decrypt Message
-    print("\n[STEP 4: MESSAGE DECRYPTION]")
-    print("-" * 70)
-    print("\n>>> Decrypting message using AES-128 CBC mode...")
-    decrypted = decrypt_message(encrypted, key)
-    print(f"    Decrypted Message: '{decrypted}'")
-    
-    # Step 5: Verification
-    print("\n[VERIFICATION]")
-    print("-" * 70)
-    if message == decrypted:
-        print("  ✓ SUCCESS: Decrypted message matches original message!")
+    # This initializes the secure Fernet engine using the generated/derived key
+    from cryptography.fernet import Fernet
+    fernet = Fernet(key)
+
+    # NEW UPGRADE: Operational Mode Menu
+    print("\n" + "="*40)
+    print("::: Choose Operation Mode :::")
+    print("1. Encrypt Text Message")
+    print("2. Decrypt Text Message")
+    print("3. Encrypt an Entire File")
+    print("4. Decrypt an Entire File")
+    print("="*40)
+    mode_choice = input("Select an option (1-4): ").strip()
+
+    if mode_choice == "1":
+        message = input("\nEnter the secret text message: ")
+        encrypted = fernet.encrypt(message.encode())
+        print(f"\n🔑 Ciphertext (Base64): {encrypted.decode()}")
+        
+    elif mode_choice == "2":
+        ciphertext = input("\nEnter the Base64 encrypted text string: ").strip()
+        try:
+            decrypted = fernet.decrypt(ciphertext.encode())
+            print(f"\n🔓 Decrypted Message: {decrypted.decode()}")
+        except Exception:
+            print("❌ Decryption failed. Invalid key or string.")
+            
+    elif mode_choice == "3":
+        path = input("\nEnter the path to the file you want to encrypt (e.g., sample.txt): ").strip()
+        encrypt_file(path, fernet)
+        
+    elif mode_choice == "4":
+        path = input("\nEnter the path to the .enc file you want to decrypt: ").strip()
+        decrypt_file(path, fernet)
     else:
-        print("  ✗ FAILURE: Messages do not match!")
-    
-    # Summary
-    print("\n[SUMMARY]")
-    print("-" * 70)
-    print(f"  Original Length:   {len(message)} characters")
-    print(f"  Encrypted Length:  {len(encrypted)} bytes")
-    print(f"  Encryption Method: AES-128 CBC (via Fernet)")
-    
-    print("\n" + "=" * 70)
-    print("\nNOTE: Fernet uses AES-128 in CBC mode with HMAC authentication.")
-    print("This provides both confidentiality and authenticity.")
-    print("=" * 70)
-
-
+        print("❌ Invalid mode selection.")
 if __name__ == "__main__":
     main()
