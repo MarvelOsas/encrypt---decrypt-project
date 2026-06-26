@@ -1,32 +1,32 @@
-# 🔐 Encryption & Decryption Project
+# Custom Cryptographic Suites & Cipher Utilities
 
-A comprehensive Python project demonstrating modern cryptography techniques including **Caesar Cipher**, **RSA (Asymmetric Encryption)**, and **AES (Symmetric Encryption)**.
+A comprehensive Python project demonstrating modern cryptography techniques including a tailored **Caesar Cipher**, asymmetric **RSA (Asymmetric Encryption)**, and branded **AES (Symmetric Encryption)**.
 
 This project is perfect for beginners learning cybersecurity, cryptography fundamentals, and Python programming.
 
 ---
 
-## 📌 Features
+## 🛠️ Features
 
-### 1. **Caesar Cipher** (`cipher.py`)
-✔ Encrypt any text using a shift (key)  
-✔ Decrypt encrypted text back to original  
-✔ Preserves uppercase, lowercase, spaces, and punctuation  
-✔ Beginner-friendly implementation  
+### ### 1. **Caesar Cipher** (`cipher.py`)
+* ✓ Encrypt any text using a shift key
+* ✓ Decrypt encrypted text back to original
+* ✓ Preserves uppercase, lowercase, spaces, and punctuation
+* ✓ Custom interactive console wrapper interface
 
-### 2. **RSA Encryption** (`rsa_encryption.py`)
-✔ Generates two random prime numbers using **Miller-Rabin primality test**  
-✔ Computes public key (n, e) and private key (n, d)  
-✔ Encrypts/decrypts messages using modular exponentiation  
-✔ Implements Extended Euclidean Algorithm for key generation  
-✔ Complete demonstration with user input  
+### ### 2. **RSA Encryption** (`rsa_encryption.py`)
+* ✓ Generates two random prime numbers using Miller-Rabin primality test
+* ✓ Computes public key (n, e) and private key (n, d)
+* ✓ Encrypts/decrypts messages using modular exponentiation
+* ✓ Implements Extended Euclidean Algorithm for key generation
+* ✓ Complete demonstration with user input
 
-### 3. **AES Symmetric Encryption** (`aes_encryption.py`)
-✔ Generates random AES keys or derives from passwords  
-✔ Uses **PBKDF2** for secure key derivation  
-✔ AES-128 encryption in **CBC mode**  
-✔ HMAC authentication for message integrity  
-✔ Full encryption/decryption demonstration  
+### ### 3. **AES Symmetric Encryption** (`aes_encryption.py`)
+* ✓ Generates random AES keys or derives them from passwords
+* ✓ Uses custom **PBKDF2** with a static salt architecture for seamless, predictable key derivation
+* ✓ Uses AES-128 encryption in **CBC mode**
+* ✓ HMAC authentication for message integrity
+* ✓ Full encryption/decryption demonstration including dynamic file handling  
 
 ---
 
@@ -197,10 +197,6 @@ This is an educational project — feel free to:
 
 ---
 
-## 📝 License
 
 This project is open source and available for educational purposes.
 
----
-
-**Happy Learning! 🚀**
