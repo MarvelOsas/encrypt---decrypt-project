@@ -196,7 +196,3 @@ This is an educational project — feel free to:
 - [Miller-Rabin Test](https://en.wikipedia.org/wiki/Miller%E2%80%93Rabin_primality_test)
 
 ---
-
-
-This project is open source and available for educational purposes.
-
